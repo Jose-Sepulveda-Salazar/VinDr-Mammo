@@ -1,0 +1,86 @@
+experimentName: nni
+trialConcurrency: 1  # Numero de experimentos que se ejecutaran en paralelo
+maxExperimentDuration: 94h  # Tiempo maximo de duracion del experimento
+maxTrialNumber: 500  # Numero maximo de pruebas
+logLevel: debug
+
+nniManagerIp: 172.17.100.15  # Direccion IP de tu maquina local accesible desde las maquinas remotas
+trialCodeDirectory: "." # Directorio donde se encuentra el script de entrenamiento
+
+trainingService:
+  platform: local  # Configuracion para entrenamiento local
+  gpuIndices: "0"  # Especifica la GPU a utilizar (ejemplo: "0" para la primera GPU)
+  maxTrialNumberPerGpu: 1
+  useActiveGpu: True
+
+tuner:
+  name: TPE  # Tipo de tuner que deseas usar
+  classArgs:
+    optimize_mode: maximize  # Maximizar la metrica objetivo
+
+searchSpace:
+  num_dense_layers:
+    _type: randint
+    _value: [1, 4] 
+  unfreeze_layers: 
+    _type: randint
+    _value: [10, 100]            
+  epochs:  
+    _type: randint
+    _value: [20, 80]
+  learning_rate:
+    _type: loguniform          
+    _value: [0.00001, 0.01]
+  batch_size:    
+    _type: choice
+    _value: [8, 16, 32, 64, 128]
+  dropout_1:
+    _type: uniform
+    _value: [0.2, 0.6]
+  dropout_2:
+    _type: uniform
+    _value: [0.3, 0.6]
+  dropout_3:
+    _type: uniform
+    _value: [0.3, 0.6]
+  dropout_4:
+    _type: uniform
+    _value: [0.3, 0.6]
+  dense_1:
+    _type: choice
+    _value: [64, 128, 256, 512] 
+  dense_2:
+    _type: choice
+    _value: [64, 128, 256, 512]
+  dense_3:
+    _type: choice
+    _value: [64, 128, 256, 512]
+  dense_4:
+    _type: choice
+    _value: [64, 128, 256, 512]
+  L1_regularization_1:
+    _type: loguniform
+    _value: [0.00001, 0.01]
+  L1_regularization_2:
+    _type: loguniform
+    _value: [0.00001, 0.01]
+  L1_regularization_3:
+    _type: loguniform
+    _value: [0.00001, 0.01]
+  L1_regularization_4:
+    _type: loguniform
+    _value: [0.00001, 0.01]
+  L2_regularization_1:
+    _type: loguniform
+    _value: [0.00001, 0.01]
+  L2_regularization_2:
+    _type: loguniform
+    _value: [0.00001, 0.01]
+  L2_regularization_3:
+    _type: loguniform
+    _value: [0.00001, 0.01]
+  L2_regularization_4:
+    _type: loguniform
+    _value: [0.00001, 0.01]
+
+trialCommand: python3 training_nni.py  # Comando para ejecutar el script de entrenamiento

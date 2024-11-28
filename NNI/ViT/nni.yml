@@ -1,0 +1,83 @@
+experimentName: nni
+trialConcurrency: 1  # Número de experimentos que se ejecutarán en paralelo
+maxExperimentDuration: 96h  # Tiempo máximo de duración del experimento
+maxTrialNumber: 50  # Número máximo de pruebas
+logLevel: debug
+
+nniManagerIp: 192.168.128.5  # Dirección IP de tu máquina local accesible desde las máquinas remotas
+trialCodeDirectory: "." # Directorio donde se encuentra el script de entrenamiento
+
+trainingService:
+  platform: local
+
+tuner:
+  name: TPE  # Tipo de tuner que deseas usar
+  classArgs:
+    optimize_mode: maximize  # Maximizar la métrica objetivo
+
+searchSpace: 
+  epochs:
+    _type: randint
+    _value: [10, 100]
+  learning_rate:
+    _type: loguniform
+    _value: [0.00001, 0.01]
+  dropout_1:
+    _type: uniform
+    _value: [0.2, 0.5]
+  dropout_2:
+    _type: uniform
+    _value: [0.3, 0.5]
+  dropout_3:
+    _type: uniform
+    _value: [0.3, 0.5]
+  dropout_4:
+    _type: uniform
+    _value: [0.3, 0.5]
+  dropout_5:
+    _type: uniform
+    _value: [0.3, 0.5]
+  dropout_6:
+    _type: uniform
+    _value: [0.3, 0.5]
+  dropout_7:
+    _type: uniform
+    _value: [0.2, 0.5]
+  dense_1:
+    _type: choice
+    _value: [128, 192, 256]
+  dense_2:
+    _type: choice
+    _value: [128, 256, 512]
+  dense_3:
+    _type: choice
+    _value: [128, 256, 512]
+  dense_4:
+    _type: choice
+    _value: [256, 512, 1024]
+  dense_5:
+    _type: choice
+    _value: [64, 128, 256]
+  dense_6:
+    _type: choice
+    _value: [32, 64, 128]
+  l2_regularization_1:
+    _type: loguniform
+    _value: [0.00001, 0.005]
+  l2_regularization_2:
+    _type: loguniform
+    _value: [0.00001, 0.005]
+  l2_regularization_3:
+    _type: loguniform
+    _value: [0.00001, 0.005]
+  l2_regularization_4:
+    _type: loguniform
+    _value: [0.00001, 0.005]
+  l2_regularization_5:
+    _type: loguniform
+    _value: [0.00001, 0.005]
+  l2_regularization_6:
+    _type: loguniform
+    _value: [0.00001, 0.005]
+
+trialCommand: python training_model.py  # Comando para ejecutar el script de entrenamiento
